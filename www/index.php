@@ -1,14 +1,26 @@
 <?php
 
 $breadcrumb = "Home";
-
-
+// tailwind css
 require "database_connection.php";
 
 $sql = "SELECT * FROM cards";
 $result = mysqli_query($conn, $sql);
 $pokemon_info = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
+
+if(isset($_GET['type'])){
+    $type = $_GET['type'];
+    $sql = "SELECT * FROM cards WHERE type = '$type'";
+    $result = mysqli_query($conn, $sql);
+    $pokemon_info = mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+
+
+
+
+$title = "Pokemon Verzameling";
 ?>
 
 <!DOCTYPE html>
@@ -27,6 +39,13 @@ $pokemon_info = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 <body class="bg-gray-100">
     <?php include 'navbar.php'; ?>
+    <a href="index.php?type=elektrisch">Elektrisch</a>
+    <a href="index.php?type=Gras">Gras</a>
+    <a href="index.php?type=vuur">Vuur</a>
+    <a href="index.php?type=Water">Water</a>
+    <a href="index.php?type=Normaal">Normaal</a>
+    <a href="index.php?type=Psychisch">Psychisch</a>
+    
 
     <!-- Main Content -->
     <div class="w-full">
@@ -37,6 +56,9 @@ $pokemon_info = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 <p class="text-xl">Ontdek de wonderlijke wereld van Pokémon en bekijk mijn uitgebreide collectie!</p>
             </div>
         </div>
+        
+
+
 
         <!-- Pokemon Grid -->
         <div class="px-8 py-12 mx-auto max-w-7xl">
@@ -53,7 +75,7 @@ $pokemon_info = mysqli_fetch_all($result, MYSQLI_ASSOC);
                         <div class="p-6">
                             <h3 class="mb-2 text-xl font-bold"><?php echo $pokemon["name"]; ?></h3>
                             <p class="mb-4 text-gray-600"><?php echo $pokemon["type"]; ?></p>
-                            <a href="pokemon_detail_simple.php?id=<?php echo $pokemon["id"]; ?>" class="text-blue-600 hover:text-blue-800">Meer informatie →</a>
+                            <a href="pokemon_detail.php?id=<?php echo $pokemon["id"]; ?>" class="text-blue-600 hover:text-blue-800">Meer informatie →</a>
                         </div>
                     </div>
                 <?php } ?>
